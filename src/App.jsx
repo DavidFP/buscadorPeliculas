@@ -1,11 +1,37 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import './App.css';
 import { Movies } from './Components/Movies';
 import { useMovies } from './Hooks/useMovies';
 import debounce from 'just-debounce-it';
+import {
+    Button,
+    Container,
+    Grid,
+    Header,
+    Icon,
+    Image,
+    Item,
+    Label,
+    Menu,
+    Segment,
+    Step,
+    Table,
+} from 'semantic-ui-react';
 
+const style = {
+    h1: {
+        marginTop: '3em',
+    },
+    h2: {
+        margin: '4em 0em 2em',
+    },
+    h3: {
+        marginTop: '2em',
+        padding: '2em 0em',
+    },
+    last: {
+        marginBottom: '300px',
+    },
+};
 function useSearch() {
     const [search, updateSearch] = useState('');
     const [error, setError] = useState(null);
@@ -57,7 +83,7 @@ function App() {
     const debouncedGetMovies = useCallback(
         debounce((search) => {
             getMovies({ search, currentPage });
-        }, 300),
+        }, 500),
         [getMovies]
     );
 
@@ -77,19 +103,21 @@ function App() {
 
     return (
         <>
-            <div className="page">
-                <header>
+            <Container className="page">
+                <Header>
                     <h1>Buscador de películas</h1>
                     <form className="form" onSubmit={handleSubmit}>
-                        <label>Introduzca el criterio de búsqueda:</label>
-                        <input
-                            className={error ? 'inputError' : ''}
-                            name="search"
-                            placeholder="Batman..., Toy Story..., La vida es bella..."
-                            value={search}
-                            onChange={handleChange}
-                        />
-                        <label>
+                        <div>
+                            <label>Introduzca el criterio de búsqueda:</label>
+                            <input
+                                className={error ? 'inputError' : ''}
+                                name="search"
+                                placeholder="Batman, Toy Story, La vida es bella..."
+                                value={search}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <Label>
                             Ordenado por título:
                             <input
                                 className={error ? 'inputError' : ''}
@@ -97,17 +125,21 @@ function App() {
                                 onChange={handleSort}
                                 checked={sort}
                             />
-                        </label>
-                        <button type="submit">Buscar</button>
+                        </Label>
+                        <Button type="submit">Buscar</Button>
                     </form>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
-                    <div>
-                        <button onClick={handlePrevious}>Anterior</button>
-                        página {currentPage} de{' '}
-                        {totalPages ? totalPages : currentPage}
-                        <button onClick={handleNext}>Siguiente</button>
-                    </div>
-                </header>
+                    {movies.length > 0 ? (
+                        <div>
+                            <Button onClick={handlePrevious}>Anterior</Button>
+                            página {currentPage} de{' '}
+                            {totalPages ? totalPages : currentPage}
+                            <Button onClick={handleNext}>Siguiente</Button>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                </Header>
                 <main>
                     {loading ? (
                         <h2>Cargando...</h2>
@@ -117,7 +149,7 @@ function App() {
                         </>
                     )}
                 </main>
-            </div>
+            </Container>
         </>
     );
 }
