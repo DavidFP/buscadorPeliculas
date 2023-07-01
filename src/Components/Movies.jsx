@@ -6,33 +6,35 @@ const noFoto = '/src/assets/nohayfoto.webp';
 function ListOfMovies({ movies }) {
     return (
         <>
-            <Table basic="very" className="movies">
-                <Table.Header>
+            <Table>
+                <Table.Header fullWidth>
                     <Table.Row>
-                        <Table.HeaderCell>Portada</Table.HeaderCell>
-                        <Table.HeaderCell>Título, año</Table.HeaderCell>
+                        <Table.HeaderCell width={2}>Portada</Table.HeaderCell>
+                        <Table.HeaderCell width={8}>
+                            Título, año
+                        </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
                     {movies.map((movie) => (
                         <Table.Row key={movie.id}>
                             <Table.Cell>
-                                <Header as="h2" image>
+                                <Header>
                                     <Image
                                         src={
                                             movie.img === 'N/A'
                                                 ? noFoto
                                                 : movie.img
                                         }
-                                        rounded
+                                        fluid
                                     />
                                 </Header>
                             </Table.Cell>
                             <Table.Cell>
                                 <Header>
-                                    <h3>{movie.title}</h3>
+                                    {movie.title} - {movie.year}
                                     <Header.Content>
-                                        {movie.year}
+                                        {movie.plot}
                                     </Header.Content>
                                 </Header>
                             </Table.Cell>

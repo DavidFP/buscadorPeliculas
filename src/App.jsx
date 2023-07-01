@@ -1,37 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Movies } from './Components/Movies';
 import { useMovies } from './Hooks/useMovies';
 import debounce from 'just-debounce-it';
 import {
     Button,
     Container,
-    Grid,
     Header,
-    Icon,
-    Image,
-    Item,
+    Form,
     Label,
-    Menu,
     Segment,
-    Step,
-    Table,
+    Icon,
 } from 'semantic-ui-react';
+import { MoviesCards } from './Components/MoviesCard';
 
-const style = {
-    h1: {
-        marginTop: '3em',
-    },
-    h2: {
-        margin: '4em 0em 2em',
-    },
-    h3: {
-        marginTop: '2em',
-        padding: '2em 0em',
-    },
-    last: {
-        marginBottom: '300px',
-    },
-};
 function useSearch() {
     const [search, updateSearch] = useState('');
     const [error, setError] = useState(null);
@@ -103,20 +83,23 @@ function App() {
 
     return (
         <>
-            <Container className="page">
-                <Header>
-                    <h1>Buscador de películas</h1>
-                    <form className="form" onSubmit={handleSubmit}>
-                        <div>
-                            <label>Introduzca el criterio de búsqueda:</label>
-                            <input
-                                className={error ? 'inputError' : ''}
-                                name="search"
-                                placeholder="Batman, Toy Story, La vida es bella..."
-                                value={search}
-                                onChange={handleChange}
-                            />
-                        </div>
+            <Container textAlign="center">
+                <Header as="h1" icon textAlign="center">
+                    <Icon name="film" circular></Icon>
+                    <Header.Content>Buscador de películas</Header.Content>
+                </Header>
+                <Form className="form" onSubmit={handleSubmit}>
+                    <Form.Field>
+                        <label>Introduzca el criterio de búsqueda:</label>
+                        <input
+                            className={error ? 'inputError' : ''}
+                            name="search"
+                            placeholder="Batman, Toy Story, La vida es bella..."
+                            value={search}
+                            onChange={handleChange}
+                        />
+                    </Form.Field>
+                    <Form.Field>
                         <Label>
                             Ordenado por título:
                             <input
@@ -126,29 +109,33 @@ function App() {
                                 checked={sort}
                             />
                         </Label>
-                        <Button type="submit">Buscar</Button>
-                    </form>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {movies.length > 0 ? (
-                        <div>
+                    </Form.Field>
+                    <Button fluid color="teal" type="submit">
+                        Buscar
+                    </Button>
+                </Form>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {movies.length > 0 ? (
+                    <div>
+                        <Segment>
                             <Button onClick={handlePrevious}>Anterior</Button>
                             página {currentPage} de{' '}
                             {totalPages ? totalPages : currentPage}
                             <Button onClick={handleNext}>Siguiente</Button>
-                        </div>
-                    ) : (
-                        <></>
-                    )}
-                </Header>
-                <main>
-                    {loading ? (
-                        <h2>Cargando...</h2>
-                    ) : (
-                        <>
-                            <Movies movies={movies} />
-                        </>
-                    )}
-                </main>
+                        </Segment>
+                    </div>
+                ) : (
+                    <></>
+                )}
+            </Container>
+            <Container>
+                {loading ? (
+                    <h2>Cargando...</h2>
+                ) : (
+                    <>
+                        <MoviesCards movies={movies} />
+                    </>
+                )}
             </Container>
         </>
     );
