@@ -130,7 +130,7 @@ function App() {
             </Container>
             <Container>
                 {loading ? (
-                    <h2>Cargando...</h2>
+                    <h1>Cargando...</h1>
                 ) : (
                     <>
                         <MoviesCards movies={movies} />

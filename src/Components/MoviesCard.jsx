@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { Grid, Card, Image, Icon } from 'semantic-ui-react';
+import { Grid, Card, Image, Icon, Message } from 'semantic-ui-react';
 
 const noFoto = '/src/assets/nohayfoto.webp';
 
-function ListOfMovies({ movies }) {
+function MoviesGrid({ movies }) {
     return (
         <>
             <Grid>
@@ -38,10 +38,19 @@ function ListOfMovies({ movies }) {
 }
 
 function NoMovies() {
-    return <>🤫 No se han encontrado películas con este criterio</>;
+    return (
+        <>
+            <Message>
+                <Message.Header>
+                    🤫 No se han encontrado películas con este criterio
+                </Message.Header>
+                <p>Puedes probar a cambiar el texto de búsqueda...</p>
+            </Message>
+        </>
+    );
 }
 
 export function MoviesCards({ movies }) {
     const hasMovies = movies?.length > 0;
-    return hasMovies ? <ListOfMovies movies={movies} /> : <NoMovies />;
+    return hasMovies ? <MoviesGrid movies={movies} /> : <NoMovies />;
 }
