@@ -69,12 +69,14 @@ function App() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setCurrentPage(1);
         getMovies({ search, currentPage });
     };
     const handleChange = (event) => {
         const currSearch = event.target.value;
         updateSearch(currSearch);
         debouncedGetMovies(currSearch);
+        setCurrentPage(1);
     };
 
     const handleSort = () => {
@@ -133,7 +135,11 @@ function App() {
                     <h1>Cargando...</h1>
                 ) : (
                     <>
-                        <MoviesCards movies={movies} />
+                        {search !== '' ? (
+                            <MoviesCards movies={movies} />
+                        ) : (
+                            <></>
+                        )}
                     </>
                 )}
             </Container>

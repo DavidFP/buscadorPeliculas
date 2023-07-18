@@ -52,5 +52,6 @@ function NoMovies() {
 
 export function MoviesCards({ movies }) {
     const hasMovies = movies?.length > 0;
+
     return hasMovies ? <MoviesGrid movies={movies} /> : <NoMovies />;
 }

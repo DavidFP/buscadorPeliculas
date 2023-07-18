@@ -8,6 +8,9 @@ export const searchMovies = async ({ search, currentPage }) => {
         );
         const json = await response.json();
         const movies = json.Search;
+        if (!movies) {
+            return { movies: {}, count: 0 };
+        }
         const count = parseInt(json.totalResults);
 
         const mappedMovies = movies?.map((movie) => ({
